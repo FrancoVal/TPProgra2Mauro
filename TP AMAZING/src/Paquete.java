@@ -1,34 +1,31 @@
 public class Paquete {
-    private Integer idPaquete;
-    private Double volumen;
-    private Float  precio;
-    private String direccion;
-    private Float costoDeEnvio;
+    private static int contadorPaquetes = 1; // Variable de clase para llevar un contador de pedidos
+    private static int idPaquete;
+    private int volumen;
+    private int  precio;
+    private static String direccionEntrega;
+    private static int costoDeEnvio;
 
-    public Paquete(Integer idPaquete, Double volumen, Float precio, String direccion) {
-        this.idPaquete = idPaquete;
+    public Paquete(int codPedido, int volumen, int precio, int porcentaje, int adicional) {
+        this.idPaquete = contadorPaquetes++;
         this.volumen = volumen;
         this.precio = precio;
-        this.costoDeEnvio = calcularCostoDeEnvio();
+        this.direccionEntrega = obtenerDireccionPedido(codPedido);
+        this.costoDeEnvio = porcentaje * adicional;
+    }
+    public Paquete(int codPedido, int volumen, int precio, int porcentaje) {
+        this.idPaquete = contadorPaquetes++;
+        this.volumen = volumen;
+        this.precio = precio;
+        this.direccionEntrega = obtenerDireccionPedido(codPedido);
+        this.costoDeEnvio = porcentaje;
     }
 
-    //NO SE SI ESTA BIEN, FALTA HACER
-    private double calcularCostoDeEnvio() {
-        Float costo = 0.0F;
-
-        if ("Normal".equals(tipoPaquete)) {
-            costo = (float) (volumen * 0.1);
-        } else if ("Fragil".equals(tipoPaquete)) {
-            costo = (float) (volumen * 0.2);
-        }
-
-        return costo;
-    }
 
     //CREA PAQUETE
-    public static Paquete crearPaquete(int id, double volumen, double precio, String tipoPaquete, Cliente cliente) {
-        if (id < 0) {
-            throw new IllegalArgumentException("El ID del paquete no puede ser negativo.");
+    public static Paquete crearPaquete(int codPedido, int volumen, int precio, int porcentaje, int adicional) {
+        if (codPedido < 0) {
+            throw new IllegalArgumentException("El ID del pedido no puede ser negativo.");
         }
 
         if (volumen <= 0) {
@@ -39,17 +36,40 @@ public class Paquete {
             throw new IllegalArgumentException("El precio del paquete debe ser mayor que cero.");
         }
 
-        if (tipoPaquete == null || tipoPaquete.isEmpty()) {
-            throw new IllegalArgumentException("El tipo de paquete no puede ser nulo o vacío.");
+        if (porcentaje <= 0) {
+            throw new IllegalArgumentException("El porcentaje/adicional del paquete debe ser mayor que cero.");
         }
 
-        if (cliente == null) {
-            throw new IllegalArgumentException("El cliente del paquete no puede ser nulo.");
+        if (adicional < 0) {
+            throw new IllegalArgumentException("El adicional del paquete no puede ser negativo.");
         }
 
-        return new Paquete(id, volumen, precio, tipoPaquete, cliente);
+        return new Paquete(idPaquete, volumen, precio, porcentaje,  adicional);
+    }
+    public static Paquete crearPaquete(int codPedido, int volumen, int precio, int porcentaje) {
+        if (codPedido < 0) {
+            throw new IllegalArgumentException("El ID del pedido no puede ser negativo.");
+        }
+
+        if (volumen <= 0) {
+            throw new IllegalArgumentException("El volumen del paquete debe ser mayor que cero.");
+        }
+
+        if (precio <= 0) {
+            throw new IllegalArgumentException("El precio del paquete debe ser mayor que cero.");
+        }
+
+        if (porcentaje <= 0) {
+            throw new IllegalArgumentException("El porcentaje/adicional del paquete debe ser mayor que cero.");
+        }
+        return new Paquete(idPaquete, volumen, precio, porcentaje);
     }
 
-
+    public String obtenerDireccionPedido(Integer codPedido) {
+        return "Pedido.obtenerDireccion(codPedido)";
+    }
+    public static Integer obtenerIdPaquete() {
+        return idPaquete;
+    }
 
 }

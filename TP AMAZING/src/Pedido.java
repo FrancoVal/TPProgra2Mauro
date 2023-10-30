@@ -3,23 +3,26 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Pedido {
-    private Integer DNI;
+    private static int contadorPedidos = 1; // Variable de clase para llevar un contador de pedidos
+    private static int idPedido;
+    private int DNI;
     private String nombreCliente;
     private String direccionEntrega;
     private HashMap<Integer, Paquete> carritoDePaquetes;
     private Boolean pedidoCerrado;
-    private Float precioDePedido;
+    private int precioDePedido;
 
-    public Pedido(String nombreCliente, String direccionEntrega, Integer DNI) {
+    public Pedido(String nombreCliente, String direccionEntrega, int DNI) {
+        this.idPedido = contadorPedidos++;
         this.DNI = DNI;
         this.nombreCliente = nombreCliente;
         this.direccionEntrega = direccionEntrega;
         this.carritoDePaquetes = new HashMap<>();
         this.pedidoCerrado = false;
-        this.precioDePedido = 0.0F;
+        this.precioDePedido = 0;
     }
     //CREA PEDIDO
-    public static Pedido crearPedido(String nombreCliente, String direccionEntrega, Integer DNI) {
+    public static Pedido crearPedido(String nombreCliente, String direccionEntrega, int DNI) {
 
         if (nombreCliente == null || nombreCliente.isEmpty()) {
             throw new IllegalArgumentException("El nombre del cliente no puede ser nulo o vacío.");
@@ -34,14 +37,21 @@ public class Pedido {
         }
 
         return new Pedido(nombreCliente, direccionEntrega, DNI);
+
     }
 
     // AGREGA PAQUETE A PEDIO
-    public void agregarPaquete(String numeroPedido, Paquete paquete) {
-
+    public static Integer agregarPaquete(int codPedido, int volumen, int precio, int porcentaje, int adicional) {
+        carritoDePaquetes.put(idPaquete(), (Paquete.crearPaquete(codPedido, volumen,  precio,  porcentaje,  adicional)));
+        return idPaquete();
     }
 
-    // QUITA PAQUETE D PEDIDO
+    public Integer agregarPaquete(int codPedido, int volumen, int precio, int porcentaje) {
+        carritoDePaquetes.put(idPaquete(), (Paquete.crearPaquete(codPedido, volumen,  precio,  porcentaje)));
+        return idPaquete();
+    }
+
+    /*// QUITA PAQUETE D PEDIDO
     public void quitarPaquete(int idPaquete) {
         if (pedidoCerrado) {
             throw new IllegalArgumentException("El pedido está cerrado, no se pueden quitar paquetes.");
@@ -70,21 +80,44 @@ public class Pedido {
         }
 
         pedidoCerrado = true;
+    }*/
+    //  DEVUELVE ID PEDIDO
+    public static Integer obtenerIdPedido() {
+        return idPedido;
+    }
+
+    //  DEVUELVE ID PAQUETE
+    private static Integer idPaquete() {
+        return Paquete.obtenerIdPaquete();
+    }
+
+    //  DEVUELVE PEDIDO A PARTIR DE ID
+    public static Pedido buscarPedido(int codPedido, HashMap<Integer, Pedido> listaPedidos) {
+        if (listaPedidos.containsKey(codPedido)) {
+            return listaPedidos.get(codPedido);
+        } else {
+            return null; // Devolver null si no se encuentra el pedido
+        }
     }
 
     // DEVUELVE PRECIO APAGAR DE CLEINTE
-    public double precioAPagar() {
+    public int precioAPagar() {
         return precioDePedido;
     }
 
     // DEVUELVE ESTADO DE PDIDO
-    public boolean obtenerEstadoDePedido() {
+    public Boolean obtenerEstadoDePedido() {
         return pedidoCerrado;
     }
 
     // DEVUELVE NOMBRE CLEINTE
     public String obtenerCliente() {
         return nombreCliente;
+    }
+
+    //DEVUELVE DIRECCION CLEINTE
+    public String obtenerDireccion() {
+        return this.direccionEntrega;
     }
 
 }

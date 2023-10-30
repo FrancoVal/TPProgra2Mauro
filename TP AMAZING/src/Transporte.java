@@ -6,7 +6,7 @@ public class Transporte {
     private String tipoDeTransporte;
     private double volumenMaximo;
     private int cantidadMaximaDePaquetes;
-    private List<Paquete> paquetesAEntregar;
+ /*   private List<Paquete> paquetesAEntregar;*/
     private boolean disponible;
     private double costoTotal;
 
@@ -16,7 +16,7 @@ public class Transporte {
         this.costoPorViaje = costoPorViaje;
         this.tipoDeTransporte = tipoDeTransporte;
         this.cantidadMaximaDePaquetes = 0; // se define cuando se crea
-        this.paquetesAEntregar = new ArrayList<>();
+      /*  this.paquetesAEntregar = new ArrayList<>();*/
         this.disponible = true;
         this.costoTotal = 0.0;
     }
@@ -52,10 +52,10 @@ public class Transporte {
     }
 
     // CALCUAL COSTO TOTAL
-    public double costoPorViaje() {
+ /*   public double costoPorViaje() {
         if (tipoDeTransporte.equals("Utilitario") && paquetesAEntregar.size() > 10) {
             costoTotal += 100; // SI CUMPLE CON UTILITARIO AUMENTA
         }
         return costoTotal;
-    }
+    }*/
 }
