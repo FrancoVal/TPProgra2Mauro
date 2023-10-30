@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Pedido {
+    private int DNI;
     private String numeroPedido;
     private String nombreCliente;
     private String direccionEntrega;
