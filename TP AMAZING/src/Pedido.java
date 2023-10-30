@@ -1,32 +1,44 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Pedido {
-    private int DNI;
-    private String numeroPedido;
+    private Integer DNI;
     private String nombreCliente;
     private String direccionEntrega;
-    private List<Paquete> carritoDePaquetes;
-    private boolean pedidoCerrado;
-    private double precioDePedido;
+    private HashMap<Integer, Paquete> carritoDePaquetes;
+    private Boolean pedidoCerrado;
+    private Float precioDePedido;
 
-    public Pedido(String numeroPedido, String nombreCliente, String direccionEntrega) {
-        this.numeroPedido = numeroPedido;
+    public Pedido(String nombreCliente, String direccionEntrega, Integer DNI) {
+        this.DNI = DNI;
         this.nombreCliente = nombreCliente;
         this.direccionEntrega = direccionEntrega;
-        this.carritoDePaquetes = new ArrayList<>();
+        this.carritoDePaquetes = new HashMap<>();
         this.pedidoCerrado = false;
-        this.precioDePedido = 0.0;
+        this.precioDePedido = 0.0F;
+    }
+    //CREA PEDIDO
+    public static Pedido crearPedido(String nombreCliente, String direccionEntrega, Integer DNI) {
+
+        if (nombreCliente == null || nombreCliente.isEmpty()) {
+            throw new IllegalArgumentException("El nombre del cliente no puede ser nulo o vacío.");
+        }
+
+        if (direccionEntrega == null || direccionEntrega.isEmpty()) {
+            throw new IllegalArgumentException("La dirección no puede ser nula o vacía.");
+        }
+
+        if (DNI <= 0) {
+            throw new IllegalArgumentException("El DNI debe ser un valor positivo.");
+        }
+
+        return new Pedido(nombreCliente, direccionEntrega, DNI);
     }
 
     // AGREGA PAQUETE A PEDIO
     public void agregarPaquete(String numeroPedido, Paquete paquete) {
-        if (pedidoCerrado) {
-            throw new IllegalArgumentException("El pedido está cerrado, no se pueden agregar paquetes.");
-        }
 
-        carritoDePaquetes.add(paquete);
-        precioDePedido += paquete.getCostoDeEnvio();
     }
 
     // QUITA PAQUETE D PEDIDO

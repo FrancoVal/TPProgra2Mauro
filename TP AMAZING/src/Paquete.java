@@ -1,29 +1,25 @@
 public class Paquete {
-    private int id;
-    private double volumen;
-    private double precio;
-    private String tipoPaquete;
-    private Cliente cliente;
-    private double costoDeEnvio;
+    private Integer idPaquete;
+    private Double volumen;
+    private Float  precio;
+    private String direccion;
+    private Float costoDeEnvio;
 
-    public Paquete(int id, double volumen, double precio, String tipoPaquete, Cliente cliente) {
-        this.id = id;
+    public Paquete(Integer idPaquete, Double volumen, Float precio, String direccion) {
+        this.idPaquete = idPaquete;
         this.volumen = volumen;
         this.precio = precio;
-        this.tipoPaquete = tipoPaquete;
-        this.cliente = cliente;
-
         this.costoDeEnvio = calcularCostoDeEnvio();
     }
 
     //NO SE SI ESTA BIEN, FALTA HACER
     private double calcularCostoDeEnvio() {
-        double costo = 0.0;
+        Float costo = 0.0F;
 
         if ("Normal".equals(tipoPaquete)) {
-            costo = volumen * 0.1;
+            costo = (float) (volumen * 0.1);
         } else if ("Fragil".equals(tipoPaquete)) {
-            costo = volumen * 0.2;
+            costo = (float) (volumen * 0.2);
         }
 
         return costo;
